@@ -44,26 +44,45 @@ The `config.lua` file allows you to customize various aspects of the farming sys
 Example Configuration:
 
 ```lua
-Config.Crops = {
-    ['corn'] = {
-        stages = {
-            [1] = {time = 300, model = 'prop_crop_stage1'},
-            [2] = {time = 600, model = 'prop_crop_stage2'},
-            [3] = {time = 900, model = 'prop_crop_stage3'}
-        },
-        yield = 5,
-        requiresWater = true
+Config = Config or {}
+
+-- General Configuration
+Config.Ticker = 20 -- Tick Every 20 Minutes
+Config.Debug = false
+
+-- Farming Zones Configuration
+-- Blips List: https://github.com/femga/rdr3_discoveries/tree/3f8917d8b581736548387d3296aa6288b5168869/useful_info_from_rpfs/textures/blips
+Config.FarmingZones = {
+    [1] = {
+        blip   = 669307703, -- Remove or set to false to disable
+        coords = vector4(1701.36, -1460.74, 47.86, 110.0),
+        dim    = vector2(50.0, 100.0)
     },
-    ['wheat'] = {
-        stages = {
-            [1] = {time = 400, model = 'prop_wheat_stage1'},
-            [2] = {time = 800, model = 'prop_wheat_stage2'},
-            [3] = {time = 1200, model = 'prop_wheat_stage3'}
-        },
-        yield = 3,
-        requiresWater = false
+    [2] = {
+        coords = vector4(1136.83, 457.08, 96.84, 130.79), -- Farm House
+        dim    = vector2(70.0, 50.0)
+    },
+    [3] = {
+        coords = vector4(1802.88, -1468.22, 45.40, 116.95), -- Farm House
+        dim    = vector2(100.0, 30.0)
     }
 }
+
+-- Crop Configuration
+-- This section defines the prop that adds a prompt to pick the crop and the item to receive once picked
+Config.FarmingCrops = {
+    [`ginseng_p`]            = 'american_ginseng',
+    [`alaskanginseng_p`]     = 'alaskan_ginseng',
+    [`blackcurrant_p`]       = 'black_currant',
+    [`s_inv_huckleberry01x`] = 'huckle_berry',
+    [`s_inv_blackberry01x`]  = 'black_berry',
+    [`s_inv_baybolete01bx`]  = 'bay_bolete',
+    [`wildmint_p`]           = 'mint',
+    [`s_indiantobacco01x`]   = 'tobacco',
+    [`crp_cornstalks_bc_sim`] = 'corn',
+    [`indtobacco_p`]         = 'coffee'
+}
+
 ```
 
 ## Requirements
