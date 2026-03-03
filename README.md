@@ -1,104 +1,111 @@
-# LXR-Farming
+# 🐺 LXR Farming System — wolves.land
 
-LXR-Farming is a comprehensive farming system developed for the LXRCore framework. It allows players to engage in farming activities such as planting, growing, and harvesting crops, providing a fully immersive and interactive roleplay experience. This script is designed for RedM servers and offers high configurability, ease of use, and optimal performance.
+> **The Land of Wolves** | Georgian RP 🇬🇪 | Serious Hardcore Roleplay
+>
+> Developer: iBoss21 / The Lux Empire
+> Website: [https://www.wolves.land](https://www.wolves.land)
+> Discord: [https://discord.gg/CrKcWdfd3A](https://discord.gg/CrKcWdfd3A)
+> Store: [https://theluxempire.tebex.io](https://theluxempire.tebex.io)
+
+---
+
+LXR-Farming is a production-grade, multi-framework farming system for RedM. Players can plant seeds, tend growing crops, and harvest items once the crops reach maturity — all within configurable farming zones. Designed for serious RedM roleplay servers and fully Tebex-escrow compliant.
 
 ## Features
 
-- **Fully Configurable**: Customize every aspect of the farming process, from crop types, growth times, and harvest yields to job permissions and locations.
-- **Crop Growth System**: Includes a dynamic crop growth system with real-time stages such as planting, growing, and ready-to-harvest.
-- **Interactive Farming**: Players can interact with the environment to plant seeds, water crops, and harvest them once they are ready.
-- **Job Integration**: Perfect for farming roles, allowing specific job roles (like farmers) to handle crop planting and harvesting, with support for job-based permissions.
-- **Multi-Language Support**: Easily translate and localize text within the script to fit the language preferences of your server's player base.
-- **Optimized Performance**: Developed with server performance in mind, ensuring minimal impact on your server's resources.
-- **Custom Crop Types**: Easily add new crops and plants into the system with adjustable growth rates and environmental conditions.
-  
+- **Multi-Framework Support** — Works with LXR-Core (primary), RSG-Core (primary), VORP Core, RedEM:RP, QBR-Core, QR-Core, and Standalone via automatic runtime detection.
+- **Crop Growth System** — Dynamic multi-stage growth system; crops advance one stage per tick until ready to harvest.
+- **Interactive Farming** — Players plant seeds with a usable item and harvest with an in-world hold prompt, complete with animations.
+- **Configurable Zones** — Add as many PolyZone farming areas as you need, each with optional map blips.
+- **Localization Ready** — English and Georgian (`ge`) locale strings included; add more as needed.
+- **Resource Name Guard** — Runtime check prevents the resource from running under an incorrect folder name (Tebex escrow compliance).
+- **Optimized Performance** — Minimal overhead; state bag sync keeps all clients in sync without continuous polling.
+
+## Framework Support
+
+| Framework    | Status    |
+|--------------|-----------|
+| LXR-Core     | ✅ Primary |
+| RSG-Core     | ✅ Primary |
+| VORP Core    | ✅ Supported |
+| RedEM:RP     | ⚡ Optional |
+| QBR-Core     | ⚡ Optional |
+| QR-Core      | ⚡ Optional |
+| Standalone   | 🔄 Fallback |
+
+Framework is detected automatically at startup. Override with `Config.Framework = 'lxr-core'` (or any key above) in `config.lua`.
+
 ## Installation
 
-1. Clone or download the `lxr-farming` resource from the [GitHub repository](https://github.com/LXRCore/lxr-farming).
-   
+1. Clone or download the `lxr-farming` resource:
+
    ```bash
    git clone https://github.com/LXRCore/lxr-farming.git
    ```
 
-2. Add the `lxr-farming` resource to your `server.cfg`:
+2. Place the folder (named **exactly** `lxr-farming`) inside your server's `resources` directory.
+
+3. Add to your `server.cfg`:
 
    ```bash
    ensure lxr-farming
    ```
 
-3. Edit the configuration file to customize the farming settings (`config.lua`).
+4. Edit `config.lua` to customise zones, crops, tick rate, and framework settings.
 
-4. Ensure you have the latest version of LXRCore installed and running on your RedM server.
-
-5. Restart your server and enjoy your new immersive farming system.
+5. Restart the server.
 
 ## Configuration
 
-The `config.lua` file allows you to customize various aspects of the farming system, including:
+### Key settings in `config.lua`
 
-- **Crops**: Add or remove crop types, define their growth stages, and set their harvest yields.
-- **Permissions**: Set job roles that are authorized to perform farming tasks.
-- **Growth Timers**: Adjust the growth time for each crop type.
-- **Watering Requirements**: Enable or disable watering mechanics, and define how frequently crops need watering.
+| Option | Default | Description |
+|--------|---------|-------------|
+| `Config.Framework` | `'auto'` | Framework to use (`'auto'` detects at runtime) |
+| `Config.Ticker` | `20` | Minutes between crop growth ticks |
+| `Config.Debug` | `false` | Show zone outlines and debug prints |
+| `Config.Lang` | `'en'` | Locale key for notifications |
 
-Example Configuration:
+### Adding a farming zone
 
 ```lua
-Config = Config or {}
-
--- General Configuration
-Config.Ticker = 20 -- Tick Every 20 Minutes
-Config.Debug = false
-
--- Farming Zones Configuration
--- Blips List: https://github.com/femga/rdr3_discoveries/tree/3f8917d8b581736548387d3296aa6288b5168869/useful_info_from_rpfs/textures/blips
 Config.FarmingZones = {
     [1] = {
-        blip   = 669307703, -- Remove or set to false to disable
+        blip   = 669307703,                              -- map blip hash (false to disable)
         coords = vector4(1701.36, -1460.74, 47.86, 110.0),
         dim    = vector2(50.0, 100.0)
     },
-    [2] = {
-        coords = vector4(1136.83, 457.08, 96.84, 130.79), -- Farm House
-        dim    = vector2(70.0, 50.0)
-    },
-    [3] = {
-        coords = vector4(1802.88, -1468.22, 45.40, 116.95), -- Farm House
-        dim    = vector2(100.0, 30.0)
-    }
 }
-
--- Crop Configuration
--- This section defines the prop that adds a prompt to pick the crop and the item to receive once picked
-Config.FarmingCrops = {
-    [`ginseng_p`]            = 'american_ginseng',
-    [`alaskanginseng_p`]     = 'alaskan_ginseng',
-    [`blackcurrant_p`]       = 'black_currant',
-    [`s_inv_huckleberry01x`] = 'huckle_berry',
-    [`s_inv_blackberry01x`]  = 'black_berry',
-    [`s_inv_baybolete01bx`]  = 'bay_bolete',
-    [`wildmint_p`]           = 'mint',
-    [`s_indiantobacco01x`]   = 'tobacco',
-    [`crp_cornstalks_bc_sim`] = 'corn',
-    [`indtobacco_p`]         = 'coffee'
-}
-
 ```
+
+### Adding a crop
+
+```lua
+Config.FarmingCrops = {
+    [`ginseng_p`] = 'american_ginseng',   -- prop hash = item name
+}
+```
+
+The corresponding usable seed item must be named `seed_american_ginseng`.
 
 ## Requirements
 
-- **LXRCore**: This script requires the LXRCore framework to function correctly.
-- **RedM**: Compatible with RedM servers for enhanced roleplay experiences.
+- **RedM** server
+- **PolyZone** (`@PolyZone` dependency for zone detection)
+- One of the supported frameworks (or Standalone mode)
 
 ## Future Updates
 
-- **Animal Husbandry**: Upcoming features include raising livestock and producing animal products like wool and milk.
-- **Farming Tools**: Additional farming tools such as plows and watering cans.
-- **Weather Impact**: Integration with weather systems to influence crop growth.
+- **Animal Husbandry** — Raise livestock and produce animal products.
+- **Farming Tools** — Plows, watering cans, and other interactive tools.
+- **Weather Impact** — Crop growth influenced by in-game weather systems.
 
 ## Support
 
-For issues, suggestions, or contributions, please open an issue or a pull request on the [GitHub repository](https://github.com/LXRCore/lxr-farming).
+- Open an issue or PR on [GitHub](https://github.com/LXRCore/lxr-farming)
+- Join the community on [Discord](https://discord.gg/CrKcWdfd3A)
 
-Join our community on [Discord](https://discord.gg/5DGEv4kK7Q) for support and discussions related to LXRCore and LXR-Farming.
+---
+
+© 2026 iBoss21 / The Lux Empire | [wolves.land](https://www.wolves.land) | All Rights Reserved
 
