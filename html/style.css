@@ -1,0 +1,8 @@
+/* LXR-FARMING — the plant card on top of lxr-ui.css. No colours here: every value is a kit token. */
+.fm-card { position: fixed; right: 40px; bottom: 120px; width: 300px; background: var(--lxr-panel-solid); border-right: 1px solid var(--lxr-blood-lit); border-radius: var(--lxr-radius); padding: var(--lxr-s3) var(--lxr-s4); display: flex; flex-direction: column; gap: var(--lxr-s2); }
+.fm-card.lxr-hidden { display: none; }
+.fm-head { display: flex; align-items: center; gap: var(--lxr-s2); font-size: var(--lxr-text-micro); padding-bottom: var(--lxr-s2); border-bottom: var(--lxr-hairline) solid var(--lxr-edge); }
+.fm-logo { width: 18px; height: 18px; object-fit: contain; opacity: .8; }
+.fm-crop { font-size: var(--lxr-text-xl); color: var(--lxr-bone); }
+.fm-line { display: flex; gap: var(--lxr-s3); font-size: var(--lxr-text-micro); }
+.lxr.lang-ka .fm-crop { font-family: var(--lxr-font-ka); }
